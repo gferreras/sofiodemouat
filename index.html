@@ -1,0 +1,177 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+<script type='text/javascript'>
+
+       function onBodyLoaded() {
+           /**
+             * Toggles the inert attribute on background content for the page.
+             * The inert attribute just needs to be set on parent level DOM
+             * nodes. Inert will set the DOM node aria-hidden attribute and
+             * and set tab-index="-1" on all children so that screen readers
+             * can't access the content.
+             */
+           function toggleInert(disabled) {
+               let bodyElem = document.getElementById("body-content");
+               if(bodyElem) {
+                   bodyElem.inert = disabled;
+               }
+           }
+ 
+           // Add hooks to toggle inert on our page when Embedded Chat
+           // changes state.
+           function addA11yHooks() {
+               embedded_svc.addEventHandler('afterMaximize', function(data) {
+                   toggleInert(true);
+               });
+               embedded_svc.addEventHandler('afterDestroy', function(data) {
+                   toggleInert(false);
+               });
+               embedded_svc.addEventHandler('afterMinimize', function(data) {
+                   toggleInert(false);
+               });
+           }
+ 
+           // Early out for desktop.
+           if(embedded_svc.isDesktop()) {
+               return;
+           }
+ 
+           // Add hooks for mobile.
+           addA11yHooks();
+       }
+	window.addEventListener("message", (event) => {
+
+            // event.source is window.opener
+
+            // event.data is the content sent from child LWC
+
+            embedded_svc.postMessage("chasitor.sendMessage", event.data.message);
+
+
+
+          }, false);	
+</script>	
+Bot Test page
+</head>
+<body onload="onBodyLoaded()">
+   <div id="body-content">
+       <h1>Welcome to the test website Bot!</h1>
+	<style type='text/css'>
+		.embeddedServiceHelpButton .helpButton .uiButton {
+			background-color: #1434CB;
+			font-family: "Arial", sans-serif;
+		}
+		.embeddedServiceHelpButton .helpButton .uiButton:focus {
+			outline: 1px solid #1434CB;
+		}
+		.previews img {
+		       max-width: 100%;
+		       border-radius: 10px;
+		 }
+		 .chat-content a {
+		       color: #fff;
+		 }
+	</style>
+	</div>
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+	var userLang = navigator.language || navigator.userLanguage; 
+	var initESW = function(gslbBaseURL) {
+		embedded_svc.settings.displayHelpButton = true; //Or false
+		if(userLang=="es-ES"){
+			embedded_svc.settings.language = 'es';
+		}else if(userLang=="pt-BR" || userLang=="pt_BR"){
+			embedded_svc.settings.language = 'pt_BR';
+		}else if(userLang=="en-US" || userLang=="en_US"){
+			embedded_svc.settings.language = 'en-US';
+		}else{
+			embedded_svc.settings.language = '';
+		}
+		//embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US' 'en-US', 'pt_BR', 'es'
+		
+		//embedded_svc.settings.prechatBackgroundImgURL = "..." //360x100 pixels Pre-Chat Banner, Specify a URL to set an image in the pre-chat form below the header and above the fields.
+		embedded_svc.settings.smallCompanyLogoImgURL = 'https://images.prismic.io/prod-axa/40a8d53b-fd99-459a-9996-a88ba24e7f48_BoldChat+Icon.png' //36x36 pixels Logo for Header and Minimized Chat, Specify a URL to set the logo for the chat header and minimized chat. 
+		//embedded_svc.settings.waitingStateBackgroundImgURL = "..." //250x60 pixels Waiting State, Specify a URL to set the background image when the chat is in a waiting state.
+		embedded_svc.settings.avatarImgURL = 'https://www.gravatar.com/avatar/00000000000000000000000000000000.png?s=200&d=mm' //40x40 pixels Agent Avatar,  Specify a URL to set the image of the agent that appears during pre-chat and chat. If your chat window uses an automated invitation, this image appears in the top left of the invitation with the default HTML and CSS in the snippet.
+		embedded_svc.settings.chatbotAvatarImgURL = 'https://www.gravatar.com/avatar/00000000000000000000000000000000.png?s=200&d=mm' //40x40 pixels Einstein Bots Avatar, Specify a URL to set the avatar image that appears when the customer is chatting with a bot.
+		embedded_svc.settings.defaultMinimizedText = 'Talk to Sofia'; //(Defaults to Chat with an Expert)
+		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+		// Settings for Chat
+		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+			// Returns a valid button ID.
+		//};
+		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+		
+		embedded_svc.settings.extraPrechatFormDetails = [ 
+    {
+			"label": "Last Name",
+			"transcriptFields":[ "LastName__c" ],
+			"displayToAgent": true
+        	},
+		{
+			"label": "First Name",
+			"transcriptFields":[ "FirstName__c" ],
+			"displayToAgent": true
+        	}
+								,
+		{
+			"label": "Email",
+			"transcriptFields":[ "Email__c" ],
+			"displayToAgent": true
+        	}];
+
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+
+		embedded_svc.init(
+			'https://visa-gateway--vgint.my.salesforce.com',
+			'https://vgint-visabenefits.cs100.force.com/webportal',
+			gslbBaseURL,
+			'00D1x0000000MUW',
+			'Chat_Group',
+			{
+				baseLiveAgentContentURL: 'https://c.la1-c1cs-fra.salesforceliveagent.com/content',
+				deploymentId: '5721x0000008QDG',
+				buttonId: '5731x0000008RhN',
+				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'Chat_Group',
+				isOfflineSupportEnabled: true
+			}
+		);
+	};
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://visa-gateway--vgint.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+</script>
+<style>
+       body {
+          
+         background: url("https://gferreras.github.io/sofiademo/fondo.jpg") no-repeat;
+	 background-repeat: no-repeat;
+         background-size: cover;
+      }
+      #button_goes_here{
+            width: 100%; 
+            height: 100%; 
+            margin: 0 auto;
+            position: relative;
+      }
+    </style>	
+</body>
+</html>	
