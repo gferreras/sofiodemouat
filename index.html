@@ -78,19 +78,57 @@ Bot Test page
 	</div>
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
-	var userLang = navigator.language || navigator.userLanguage; 
 	var initESW = function(gslbBaseURL) {
 		embedded_svc.settings.displayHelpButton = true; //Or false
-		if(userLang=="es-ES"){
-			embedded_svc.settings.language = 'es';
-		}else if(userLang=="pt-BR" || userLang=="pt_BR"){
-			embedded_svc.settings.language = 'pt_BR';
-		}else if(userLang=="en-US" || userLang=="en_US"){
-			embedded_svc.settings.language = 'en-US';
-		}else{
-			embedded_svc.settings.language = '';
+		embedded_svc.settings.language = 'pt_BR'; //For example, enter 'en' or 'en-US' 'en-US', 'pt_BR', 'es'
+		var lang = embedded_svc.settings.language;
+		var firstNameEN = 'First Name';
+		var firstNameSP = 'Nombre';
+		var firstNamePT = 'Primeiro Nome';
+		var lastNameEN = 'Last Name';
+		var lastNameSP = 'Apellidos';
+		var lastNamePT = 'Sobrenome';
+		var emailEN = 'Email';
+		var emailSP = 'Correo electrónico';
+		var emailPT = 'Email';
+		var languageEN = 'Language';
+		var languageSP = 'Idioma';
+		var languagePT = 'Idioma';
+		var varFirstName = '';
+		var varLastName = '';
+		var varLanguage = '';
+		var varEmail = '';
+		var varTalk = '';
+		var varLanguageValue ='';
+		if(lang=='en_US'){
+			varFirstName = firstNameEN;
+			varLastName = lastNameEN;
+			varLanguage = languageEN;
+			varEmail = emailEN;
+			varTalk = 'Talk to Sofia';
+			varLanguageValue ='en_US';
+		} else if (lang=='es'){
+			varFirstName = firstNameSP;
+			varLastName = lastNameSP;
+			varLanguage = languageSP;
+			varEmail = emailSP;
+			varTalk = 'Hablar con Sofia';
+			varLanguageValue ='es';
+		} else if (lang=='pt_BR'){
+			varFirstName = firstNamePT;
+			varLastName = lastNamePT;
+			varLanguage = languagePT;
+			varEmail = emailPT;
+			varTalk = 'Falar com a Sofia';
+			varLanguageValue ='pt_BR';
 		}
-		//embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US' 'en-US', 'pt_BR', 'es'
+		console.log("lang: "+lang);
+		console.log("varFirstName: "+varFirstName);
+		console.log("varLastName: "+varLastName);
+		console.log("varEmail: "+varEmail);
+		console.log("varLanguage: "+varLanguage);
+		console.log("varTalk: "+varTalk);
+		console.log("varLanguageValue: "+varLanguageValue);
 		
 		//embedded_svc.settings.prechatBackgroundImgURL = "..." //360x100 pixels Pre-Chat Banner, Specify a URL to set an image in the pre-chat form below the header and above the fields.
 		embedded_svc.settings.smallCompanyLogoImgURL = 'https://images.prismic.io/prod-axa/63f9c13c-014a-4115-bff0-1ea3128dde25_Chatnegative24.png?auto=compress,format' //36x36 pixels Logo for Header and Minimized Chat, Specify a URL to set the logo for the chat header and minimized chat.
@@ -113,21 +151,25 @@ Bot Test page
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 		
 		embedded_svc.settings.extraPrechatFormDetails = [ 
-    {
-			"label": "Last Name",
+    		{
+			"label": varLastName,
 			"transcriptFields":[ "LastName__c" ],
 			"displayToAgent": true
         	},
 		{
-			"label": "First Name",
+			"label": varFirstName,
 			"transcriptFields":[ "FirstName__c" ],
 			"displayToAgent": true
-        	}
-								,
+        	},
 		{
-			"label": "Email",
+			"label": varEmail,
 			"transcriptFields":[ "Email__c" ],
 			"displayToAgent": true
+		},{
+			"label": varLanguage,
+			"value": varLanguageValue,
+			"transcriptFields":[ "Language__c" ],
+			"displayToAgent":true	
         	}];
 
 		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
