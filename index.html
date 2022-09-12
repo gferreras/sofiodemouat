@@ -100,6 +100,7 @@ Bot Test page
 		var varEmail = '';
 		var varTalk = '';
 		var varLanguageValue ='';
+		var isLogged = true;
 		if(lang=='en_US'){
 			varFirstName = firstNameEN;
 			varLastName = lastNameEN;
@@ -129,6 +130,7 @@ Bot Test page
 		console.log("varLanguage: "+varLanguage);
 		console.log("varTalk: "+varTalk);
 		console.log("varLanguageValue: "+varLanguageValue);
+		console.log("isLogged: "+isLogged);
 		
 		//embedded_svc.settings.prechatBackgroundImgURL = "..." //360x100 pixels Pre-Chat Banner, Specify a URL to set an image in the pre-chat form below the header and above the fields.
 		embedded_svc.settings.smallCompanyLogoImgURL = 'https://images.prismic.io/prod-axa/63f9c13c-014a-4115-bff0-1ea3128dde25_Chatnegative24.png?auto=compress,format' //36x36 pixels Logo for Header and Minimized Chat, Specify a URL to set the logo for the chat header and minimized chat.
@@ -146,9 +148,21 @@ Bot Test page
 			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
 			// Returns a valid button ID.
 		//};
-		embedded_svc.settings.prepopulatedPrechatFields = {
+		if(isLogged==true){
+			embedded_svc.settings.prepopulatedPrechatFields = {
+			FirstName: "Tests",
+			LastName: "Functional",
+			Email: "ust-bot.test.001@yopmail.com",
 			Language__c: varLanguageValue
-		}; //Sets the auto-population of pre-chat form fields
+			}; //Sets the auto-population of pre-chat form fields
+		}else{
+			embedded_svc.settings.prepopulatedPrechatFields = {
+			FirstName: "Ponga su nombre aqui",
+			LastName: "Ponga su apellido aqui",
+			Email: "ust-bot.test.001@yopmail.com",
+			Language__c: varLanguageValue
+			}; //Sets the auto-population of pre-chat form fields
+		}
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 		
