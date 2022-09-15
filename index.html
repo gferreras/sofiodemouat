@@ -149,7 +149,7 @@ Bot Test page
 			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
 			// Returns a valid button ID.
 		//};
-		/*if(isLogged==true){
+		if(isLogged==true){
 			embedded_svc.settings.prepopulatedPrechatFields = {
 			FirstName: "Tests",
 			LastName: "Functional",
@@ -163,34 +163,31 @@ Bot Test page
 			Email: "ust-bot.test.001@yopmail.com",
 			Language__c: varLanguageValue
 			}; //Sets the auto-population of pre-chat form fields
-		}*/
+		}
 		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
 		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
 		
-		embedded_svc.settings.extraPrechatFormDetails = [ 
-    		{
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+		
+		embedded_svc.settings.extraPrechatFormDetails = [{
 			"label": varLastName,
 			"transcriptFields":[ "LastName__c" ],
 			"displayToAgent": true
-        	},
-		{
+        		},{
 			"label": varFirstName,
 			"transcriptFields":[ "FirstName__c" ],
 			"displayToAgent": true
-        	},
-		{
+        		},{
 			"label": varEmail,
 			"transcriptFields":[ "Email__c" ],
 			"displayToAgent": true
-		},{
+			},{
 			"label": varLanguage,
 			"value": varLanguageValue,
 			"transcriptFields":[ "Language__c" ],
 			"displayToAgent":true	
         	}];
-
-		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
-		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
 			'https://visa-gateway--vgint.my.salesforce.com',
@@ -203,7 +200,8 @@ Bot Test page
 				deploymentId: '5721x0000008QDG',
 				buttonId: '5731x0000008RhN',
 				baseLiveAgentURL: 'https://d.la1-c1cs-fra.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1x0000004D73EAE_180046a52d2',
+				eswLiveAgentDevName: 'Chat_Group',
+				//eswLiveAgentDevName: 'EmbeddedServiceLiveAgent_Parent04I1x0000004D73EAE_180046a52d2',
 				isOfflineSupportEnabled: true
 			}
 		);
