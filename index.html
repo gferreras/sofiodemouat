@@ -102,6 +102,7 @@ Bot Test page
 		var varTalk = '';
 		var varLanguageValue ='';
 		var isLogged = true;
+		var varCountry = '';
 		if(lang=='en_US'){
 			varFirstName = firstNameEN;
 			varLastName = lastNameEN;
@@ -109,6 +110,7 @@ Bot Test page
 			varEmail = emailEN;
 			varTalk = 'Talk to Sofia';
 			varLanguageValue ='en_US';
+			varCountry='AW';
 		} else if (lang=='es'){
 			varFirstName = firstNameSP;
 			varLastName = lastNameSP;
@@ -116,6 +118,7 @@ Bot Test page
 			varEmail = emailSP;
 			varTalk = 'Hablar con Sofia';
 			varLanguageValue ='es';
+			varCountry='AR';
 		} else if (lang=='pt_BR'){
 			varFirstName = firstNamePT;
 			varLastName = lastNamePT;
@@ -123,6 +126,7 @@ Bot Test page
 			varEmail = emailPT;
 			varTalk = 'Falar com a Sofia';
 			varLanguageValue ='pt_BR';
+			varCountry='BR';
 		}
 		console.log("lang: "+lang);
 		console.log("varFirstName: "+varFirstName);
@@ -186,8 +190,14 @@ Bot Test page
 			"label": varLanguage,
 			"value": varLanguageValue,
 			"transcriptFields":[ "Language__c" ],
-			"displayToAgent":true	
-        	}];
+			"displayToAgent":true
+			,{
+			"label": Country,
+			"value": varCountry,
+			"transcriptFields":[ "Country__c" ],
+			"displayToAgent":true
+        		}	
+        	];
 
 		embedded_svc.init(
 			'https://visa-gateway--vgint.my.salesforce.com',
